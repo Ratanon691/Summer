@@ -129,22 +129,22 @@ const Index = () => {
   const currentNewsItem = mockNews[currentNews];
 
   return (
-    <div className="h-screen w-full overflow-hidden bg-gradient-to-br from-background via-secondary/20 to-accent/10 text-foreground relative">
+    <div className="h-screen w-full overflow-hidden bg-gradient-to-br from-background via-background to-secondary/20 text-foreground relative">
       {/* Theme Toggle Button */}
       <Button
         variant="ghost"
         size="sm"
         onClick={toggleDarkMode}
-        className="absolute top-4 right-4 z-30 bg-card/80 backdrop-blur-sm hover:bg-card"
+        className="absolute top-4 right-4 z-30 glass-button hover:bg-card/80 transition-all duration-300"
       >
         {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
       </Button>
 
       {/* Navigation Indicators */}
       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
-        <div className={`w-2 h-2 rounded-full ${currentView === 'right' ? 'bg-accent' : 'bg-muted'}`} />
-        <div className={`w-2 h-2 rounded-full ${currentView === 'center' ? 'bg-primary' : 'bg-muted'}`} />
-        <div className={`w-2 h-2 rounded-full ${currentView === 'left' ? 'bg-accent' : 'bg-muted'}`} />
+        <div className={`w-2 h-2 rounded-full transition-all duration-300 ${currentView === 'right' ? 'bg-accent' : 'bg-muted'}`} />
+        <div className={`w-2 h-2 rounded-full transition-all duration-300 ${currentView === 'center' ? 'bg-primary' : 'bg-muted'}`} />
+        <div className={`w-2 h-2 rounded-full transition-all duration-300 ${currentView === 'left' ? 'bg-accent' : 'bg-muted'}`} />
       </div>
 
       {/* Main Content Container */}
@@ -160,18 +160,18 @@ const Index = () => {
         onMouseUp={handleMouseUp}
       >
         {/* Daily Brief Page */}
-        <div className="w-1/3 h-full flex flex-col bg-gradient-to-br from-accent/90 to-primary/20 p-4 overflow-y-auto">
+        <div className="w-1/3 h-full flex flex-col bg-gradient-to-br from-secondary/40 via-background to-accent/20 p-4 overflow-y-auto">
           <div className="flex items-center mb-6 pt-8">
-            <Calendar className="w-7 h-7 mr-3 text-accent-foreground" />
+            <Calendar className="w-7 h-7 mr-3 text-primary" />
             <div>
-              <h1 className="text-2xl font-bold text-accent-foreground">Daily Brief</h1>
-              <p className="text-accent-foreground/80 text-sm">{dailyBrief.date}</p>
+              <h1 className="text-2xl font-bold text-foreground">Daily Brief</h1>
+              <p className="text-muted-foreground text-sm">{dailyBrief.date}</p>
             </div>
           </div>
           
           <div className="flex-1 space-y-4">
             {/* Market Summary Card */}
-            <Card className="bg-card/90 border-primary/30 backdrop-blur-sm shadow-lg">
+            <Card className="glass-card shadow-lg border-primary/20">
               <CardHeader className="pb-3">
                 <CardTitle className="text-card-foreground text-lg flex items-center">
                   <TrendingUp className="w-5 h-5 mr-2 text-primary" />
@@ -179,12 +179,12 @@ const Index = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground leading-relaxed">{dailyBrief.summary}</p>
+                <p className="text-foreground/80 leading-relaxed">{dailyBrief.summary}</p>
               </CardContent>
             </Card>
 
             {/* Key Highlights Card */}
-            <Card className="bg-card/90 border-primary/30 backdrop-blur-sm shadow-lg">
+            <Card className="glass-card shadow-lg border-primary/20">
               <CardHeader className="pb-3">
                 <CardTitle className="text-card-foreground text-lg">Key Highlights</CardTitle>
               </CardHeader>
@@ -192,10 +192,10 @@ const Index = () => {
                 <div className="space-y-3">
                   {dailyBrief.keyPoints.map((point, index) => (
                     <div key={index} className="flex items-start group">
-                      <div className="w-6 h-6 bg-primary rounded-full mt-0.5 mr-3 flex-shrink-0 flex items-center justify-center">
+                      <div className="w-6 h-6 bg-gradient-to-r from-primary to-accent rounded-full mt-0.5 mr-3 flex-shrink-0 flex items-center justify-center shadow-md">
                         <span className="text-primary-foreground text-xs font-bold">{index + 1}</span>
                       </div>
-                      <span className="text-muted-foreground group-hover:text-foreground transition-colors duration-200">
+                      <span className="text-foreground/80 group-hover:text-foreground transition-colors duration-200">
                         {point}
                       </span>
                     </div>
@@ -205,7 +205,7 @@ const Index = () => {
             </Card>
 
             {/* Market Outlook Card */}
-            <Card className="bg-gradient-to-r from-card/90 to-secondary/50 border-accent/30 backdrop-blur-sm shadow-lg">
+            <Card className="glass-card shadow-lg border-accent/30">
               <CardHeader className="pb-3">
                 <CardTitle className="text-card-foreground text-lg flex items-center">
                   <Sparkles className="w-5 h-5 mr-2 text-accent" />
@@ -213,7 +213,7 @@ const Index = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground leading-relaxed">{dailyBrief.marketOutlook}</p>
+                <p className="text-foreground/80 leading-relaxed">{dailyBrief.marketOutlook}</p>
               </CardContent>
             </Card>
           </div>
@@ -222,7 +222,7 @@ const Index = () => {
             <Button 
               variant="ghost" 
               onClick={() => setCurrentView('center')}
-              className="text-accent-foreground/80 hover:text-accent-foreground hover:bg-card/50 transition-all duration-200"
+              className="glass-button hover:bg-card/50 transition-all duration-200"
             >
               <ChevronRight className="w-4 h-4 mr-1" />
               Swipe to News Feed
@@ -240,22 +240,23 @@ const Index = () => {
           </div>
 
           <div className="relative z-10 h-full flex flex-col justify-end p-6">
-            <div className="mb-4">
-              <div className="flex items-center mb-2">
-                <span className={`px-2 py-1 rounded text-xs font-semibold ${
-                  currentNewsItem.impact === 'Bullish' ? 'bg-accent text-accent-foreground' : 
-                  currentNewsItem.impact === 'Bearish' ? 'bg-destructive text-destructive-foreground' : 'bg-secondary text-secondary-foreground'
+            <div className="mb-4 glass-card rounded-2xl p-6">
+              <div className="flex items-center mb-3">
+                <span className={`px-3 py-1 rounded-full text-xs font-semibold glass ${
+                  currentNewsItem.impact === 'Bullish' ? 'bg-accent/20 text-accent-foreground border border-accent/30' : 
+                  currentNewsItem.impact === 'Bearish' ? 'bg-destructive/20 text-destructive-foreground border border-destructive/30' : 
+                  'bg-secondary/20 text-secondary-foreground border border-secondary/30'
                 }`}>
                   {currentNewsItem.impact}
                 </span>
-                <span className="text-muted-foreground text-sm ml-2">{currentNewsItem.source}</span>
+                <span className="text-muted-foreground text-sm ml-3">{currentNewsItem.source}</span>
               </div>
               
               <h2 className="text-2xl font-bold mb-3 leading-tight text-foreground">
                 {currentNewsItem.headline}
               </h2>
               
-              <p className="text-muted-foreground text-lg leading-relaxed">
+              <p className="text-foreground/80 text-lg leading-relaxed">
                 {currentNewsItem.summary}
               </p>
             </div>
@@ -266,7 +267,7 @@ const Index = () => {
                 variant="ghost" 
                 size="sm"
                 onClick={() => setCurrentView('right')}
-                className="text-foreground/80 hover:text-foreground hover:bg-card/50"
+                className="glass-button hover:bg-card/50"
               >
                 <ChevronLeft className="w-4 h-4 mr-1" />
                 Daily Brief
@@ -277,18 +278,18 @@ const Index = () => {
                   variant="ghost" 
                   size="sm" 
                   onClick={prevNews}
-                  className="text-foreground/80 hover:text-foreground hover:bg-card/50"
+                  className="glass-button hover:bg-card/50"
                 >
                   <ChevronDown className="w-4 h-4 rotate-180" />
                 </Button>
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-muted-foreground px-2 py-1 glass-button rounded">
                   {currentNews + 1} / {mockNews.length}
                 </span>
                 <Button 
                   variant="ghost" 
                   size="sm" 
                   onClick={nextNews}
-                  className="text-foreground/80 hover:text-foreground hover:bg-card/50"
+                  className="glass-button hover:bg-card/50"
                 >
                   <ChevronDown className="w-4 h-4" />
                 </Button>
@@ -298,7 +299,7 @@ const Index = () => {
                 variant="ghost" 
                 size="sm"
                 onClick={() => setCurrentView('left')}
-                className="text-foreground/80 hover:text-foreground hover:bg-card/50"
+                className="glass-button hover:bg-card/50"
               >
                 AI Summary
                 <ChevronRight className="w-4 h-4 ml-1" />
@@ -308,7 +309,7 @@ const Index = () => {
         </div>
 
         {/* AI Summary Page */}
-        <div className="w-1/3 h-full bg-gradient-to-br from-background to-secondary/20 p-6 overflow-y-auto">
+        <div className="w-1/3 h-full bg-gradient-to-br from-background via-secondary/10 to-accent/10 p-6 overflow-y-auto">
           <div className="flex items-center mb-6">
             <Sparkles className="w-6 h-6 mr-2 text-accent" />
             <h1 className="text-2xl font-bold">AI Analysis</h1>
@@ -319,21 +320,21 @@ const Index = () => {
               <img 
                 src={currentNewsItem.image} 
                 alt={currentNewsItem.headline}
-                className="w-full h-48 object-cover rounded-lg mb-4"
+                className="w-full h-48 object-cover rounded-2xl mb-4 shadow-lg"
               />
-              <h2 className="text-xl font-bold mb-4 leading-tight">
+              <h2 className="text-xl font-bold mb-4 leading-tight text-foreground">
                 {currentNewsItem.headline}
               </h2>
             </div>
 
             <div>
               <h3 className="text-lg font-semibold mb-3 text-primary">Full Article</h3>
-              <p className="text-muted-foreground leading-relaxed mb-4">
+              <p className="text-foreground/80 leading-relaxed mb-4">
                 {currentNewsItem.content}
               </p>
             </div>
 
-            <Card className="bg-card/80 border-accent/30 backdrop-blur-sm">
+            <Card className="glass-card border-accent/30 shadow-lg">
               <CardHeader className="pb-3">
                 <CardTitle className="text-lg font-semibold text-accent flex items-center">
                   <TrendingUp className="w-5 h-5 mr-2" />
@@ -341,20 +342,20 @@ const Index = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-foreground/80 leading-relaxed">
                   {currentNewsItem.aiAnalysis}
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-card/60 border-primary/30">
+            <Card className="glass-card border-primary/30 shadow-lg">
               <CardHeader className="pb-3">
                 <CardTitle className="text-lg font-semibold text-primary">Source</CardTitle>
               </CardHeader>
               <CardContent>
                 <a 
                   href="#" 
-                  className="text-accent hover:text-accent/80 underline"
+                  className="text-accent hover:text-accent/80 underline transition-colors duration-200"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -368,7 +369,7 @@ const Index = () => {
             <Button 
               variant="ghost" 
               onClick={() => setCurrentView('center')}
-              className="text-muted-foreground hover:text-foreground hover:bg-card/50"
+              className="glass-button hover:bg-card/50"
             >
               <ChevronLeft className="w-4 h-4 mr-1" />
               Back to News Feed
@@ -379,7 +380,7 @@ const Index = () => {
 
       {/* Swipe Instructions */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center z-20">
-        <p className="text-muted-foreground text-sm">
+        <p className="text-muted-foreground text-sm glass-button px-3 py-1 rounded-full">
           Swipe left/right or use buttons to navigate
         </p>
       </div>

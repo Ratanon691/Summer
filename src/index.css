@@ -3,28 +3,28 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Summer-themed design system with warm, vibrant colors */
+/* Summer-themed design system with improved readability and liquid glass effects */
 
 @layer base {
   :root {
-    /* Summer Light Theme - Warm and vibrant */
-    --background: 40 100% 98%;
-    --foreground: 20 14.3% 4.1%;
+    /* Summer Light Theme - Improved readability with liquid glass */
+    --background: 0 0% 98%;
+    --foreground: 0 0% 15%;
 
-    --card: 40 50% 96%;
-    --card-foreground: 20 14.3% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 15%;
 
-    --popover: 40 100% 98%;
-    --popover-foreground: 20 14.3% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 15%;
 
     --primary: 24 95% 53%; /* Vibrant summer orange */
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 45 100% 85%; /* Soft sunny yellow */
-    --secondary-foreground: 20 14.3% 4.1%;
+    --secondary: 45 25% 90%; /* Softer yellow with better contrast */
+    --secondary-foreground: 0 0% 20%;
 
-    --muted: 45 50% 92%;
-    --muted-foreground: 25 7% 46%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 40%;
 
     --accent: 200 98% 65%; /* Bright summer sky blue */
     --accent-foreground: 0 0% 98%;
@@ -32,19 +32,19 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 45 30% 88%;
-    --input: 45 30% 88%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
     --ring: 24 95% 53%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 40 50% 96%;
-    --sidebar-foreground: 20 14.3% 4.1%;
+    --sidebar-background: 0 0% 96%;
+    --sidebar-foreground: 0 0% 15%;
     --sidebar-primary: 24 95% 53%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 45 100% 85%;
-    --sidebar-accent-foreground: 20 14.3% 4.1%;
-    --sidebar-border: 45 30% 88%;
+    --sidebar-accent: 45 25% 90%;
+    --sidebar-accent-foreground: 0 0% 20%;
+    --sidebar-border: 0 0% 90%;
     --sidebar-ring: 24 95% 53%;
   }
 
@@ -96,5 +96,39 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Liquid Glass Effects */
+@layer utilities {
+  .glass {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark .glass-card {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+  
+  .glass-button {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .dark .glass-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
   }
 }
