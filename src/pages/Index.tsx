@@ -1,8 +1,7 @@
-
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, ChevronDown, TrendingUp, Calendar, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 // Mock data for demonstration
 const mockNews = [
@@ -137,42 +136,69 @@ const Index = () => {
         onMouseUp={handleMouseUp}
       >
         {/* Daily Brief Page */}
-        <div className="w-1/3 h-full flex flex-col bg-gradient-to-br from-blue-900 to-blue-700 p-6">
-          <div className="flex items-center mb-6">
-            <Calendar className="w-6 h-6 mr-2" />
-            <h1 className="text-2xl font-bold">Daily Brief</h1>
+        <div className="w-1/3 h-full flex flex-col bg-gradient-to-br from-blue-900 to-blue-700 p-4 overflow-y-auto">
+          <div className="flex items-center mb-6 pt-8">
+            <Calendar className="w-7 h-7 mr-3 text-blue-200" />
+            <div>
+              <h1 className="text-2xl font-bold text-white">Daily Brief</h1>
+              <p className="text-blue-200 text-sm">{dailyBrief.date}</p>
+            </div>
           </div>
           
-          <div className="flex-1 overflow-y-auto">
-            <div className="mb-4">
-              <p className="text-blue-200 text-sm">{dailyBrief.date}</p>
-              <h2 className="text-xl font-semibold mb-3">Market Summary</h2>
-              <p className="text-gray-200 mb-6">{dailyBrief.summary}</p>
-            </div>
+          <div className="flex-1 space-y-4">
+            {/* Market Summary Card */}
+            <Card className="bg-blue-800/30 border-blue-600/50 backdrop-blur-sm">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-white text-lg flex items-center">
+                  <TrendingUp className="w-5 h-5 mr-2 text-blue-300" />
+                  Market Summary
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-blue-100 leading-relaxed">{dailyBrief.summary}</p>
+              </CardContent>
+            </Card>
 
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-3">Key Highlights</h3>
-              <ul className="space-y-2">
-                {dailyBrief.keyPoints.map((point, index) => (
-                  <li key={index} className="flex items-start">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0" />
-                    <span className="text-gray-200">{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {/* Key Highlights Card */}
+            <Card className="bg-blue-800/30 border-blue-600/50 backdrop-blur-sm">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-white text-lg">Key Highlights</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {dailyBrief.keyPoints.map((point, index) => (
+                    <div key={index} className="flex items-start group">
+                      <div className="w-6 h-6 bg-blue-400 rounded-full mt-0.5 mr-3 flex-shrink-0 flex items-center justify-center">
+                        <span className="text-blue-900 text-xs font-bold">{index + 1}</span>
+                      </div>
+                      <span className="text-blue-100 group-hover:text-white transition-colors duration-200">
+                        {point}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
 
-            <div className="bg-blue-800/50 p-4 rounded-lg">
-              <h3 className="text-lg font-semibold mb-2">Market Outlook</h3>
-              <p className="text-gray-200">{dailyBrief.marketOutlook}</p>
-            </div>
+            {/* Market Outlook Card */}
+            <Card className="bg-gradient-to-r from-blue-800/40 to-purple-800/40 border-blue-500/50 backdrop-blur-sm">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-white text-lg flex items-center">
+                  <Sparkles className="w-5 h-5 mr-2 text-purple-300" />
+                  Market Outlook
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-blue-100 leading-relaxed">{dailyBrief.marketOutlook}</p>
+              </CardContent>
+            </Card>
           </div>
 
-          <div className="text-center mt-4">
+          <div className="text-center mt-6 pb-4">
             <Button 
               variant="ghost" 
               onClick={() => setCurrentView('center')}
-              className="text-blue-200 hover:text-white"
+              className="text-blue-200 hover:text-white hover:bg-blue-800/50 transition-all duration-200"
             >
               <ChevronRight className="w-4 h-4 mr-1" />
               Swipe to News Feed
