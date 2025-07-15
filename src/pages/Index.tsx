@@ -12,7 +12,12 @@ const mockNews = [{
   source: "Reuters",
   impact: "Bullish",
   content: "Apple Inc. exceeded Wall Street expectations with its fourth-quarter results, reporting revenue of $94.9 billion compared to analysts' estimates of $94.4 billion. The tech giant's iPhone segment generated $46.2 billion in revenue, marking a 3% increase from the previous year. The company's services division, including the App Store, iCloud, and Apple Music, contributed $22.3 billion, representing a 16% year-over-year growth. CEO Tim Cook highlighted the strong adoption of iPhone 15 and the growing ecosystem of Apple services as key drivers of the quarter's success.",
-  aiAnalysis: "This earnings beat signals strong consumer demand for Apple's premium products despite economic headwinds. The 16% growth in services revenue is particularly significant as it represents Apple's highest-margin business segment. For investors, this suggests sustainable long-term growth beyond hardware sales."
+  aiAnalysis: [
+    "Strong consumer demand for Apple's premium products despite economic headwinds",
+    "16% growth in services revenue represents Apple's highest-margin business segment",
+    "Sustainable long-term growth beyond hardware sales indicates strong ecosystem lock-in",
+    "Beat analyst expectations suggests continued market confidence in Apple's strategy"
+  ]
 }, {
   id: 2,
   headline: "Tesla Stock Surges 12% on Cybertruck Production Update",
@@ -21,7 +26,12 @@ const mockNews = [{
   source: "Bloomberg",
   impact: "Bullish",
   content: "Tesla Inc. shares jumped 12% in after-hours trading following the company's announcement of an accelerated production timeline for its highly anticipated Cybertruck. The electric vehicle manufacturer revealed that it has overcome key manufacturing challenges and expects to begin customer deliveries in Q1 2024, earlier than the previously projected Q2 timeline. The company also announced that it has received over 1.5 million pre-orders for the Cybertruck, with production capacity expected to reach 250,000 units annually by 2025.",
-  aiAnalysis: "The earlier-than-expected Cybertruck launch could significantly boost Tesla's market share in the electric pickup truck segment. With Ford's F-150 Lightning facing production issues, Tesla has a window to dominate this high-margin market. The 1.5 million pre-orders indicate strong pent-up demand."
+  aiAnalysis: [
+    "Earlier-than-expected Cybertruck launch could significantly boost Tesla's market share",
+    "1.5 million pre-orders indicate strong pent-up demand in electric pickup segment",
+    "Production capacity of 250,000 units annually represents substantial revenue potential",
+    "Overcoming manufacturing challenges demonstrates Tesla's operational excellence"
+  ]
 }, {
   id: 3,
   headline: "Federal Reserve Hints at Rate Cut in December Meeting",
@@ -30,7 +40,12 @@ const mockNews = [{
   source: "Wall Street Journal",
   impact: "Mixed",
   content: "Federal Reserve Chair Jerome Powell indicated that the central bank may consider cutting interest rates at its December meeting, citing recent data showing inflation trending toward the Fed's 2% target. Core PCE inflation has declined to 3.2% year-over-year, down from its peak of 5.4% in early 2023. Powell emphasized that any rate decisions will be data-dependent, but acknowledged that the current restrictive monetary policy stance may no longer be necessary if inflation continues to moderate. Market participants are now pricing in a 75% probability of a 25 basis point rate cut in December.",
-  aiAnalysis: "Lower interest rates typically benefit growth stocks and sectors sensitive to borrowing costs, such as real estate and technology. However, rate cuts often signal economic weakness, which could negatively impact cyclical sectors. Investors should monitor upcoming inflation data closely."
+  aiAnalysis: [
+    "Lower interest rates typically benefit growth stocks and borrowing-sensitive sectors",
+    "Rate cuts often signal economic weakness, potentially impacting cyclical sectors negatively",
+    "75% market probability suggests high confidence in Fed's dovish pivot",
+    "Continued inflation moderation creates room for monetary policy accommodation"
+  ]
 }];
 const dailyBrief = {
   date: "November 15, 2024",
@@ -65,12 +80,9 @@ const Index = () => {
     const endX = e.changedTouches[0].clientX;
     const diffX = startX - endX;
     if (Math.abs(diffX) > 50) {
-      // Minimum swipe distance
       if (diffX > 0 && currentView !== 'left') {
-        // Swipe left - go to AI Summary
         setCurrentView('left');
       } else if (diffX < 0 && currentView !== 'right') {
-        // Swipe right - go to Daily Brief
         setCurrentView('right');
       }
     }
@@ -100,14 +112,22 @@ const Index = () => {
     setCurrentNews(prev => (prev - 1 + mockNews.length) % mockNews.length);
   };
   const currentNewsItem = mockNews[currentNews];
+
+  // Helper function to highlight keywords in text
+  const highlightKeywords = (text: string, keywords: string[] = ['Apple', 'Tesla', 'Federal Reserve', 'revenue', 'earnings', 'production', 'rate cut', 'inflation']) => {
+    let highlightedText = text;
+    keywords.forEach(keyword => {
+      const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
+      highlightedText = highlightedText.replace(regex, `<span class="text-primary font-semibold">${keyword}</span>`);
+    });
+    return highlightedText;
+  };
+
   return <div className="h-screen w-full overflow-hidden bg-gradient-to-br from-background via-secondary/20 to-accent/10 text-foreground relative">
       {/* Theme Toggle Button */}
       <Button variant="ghost" size="sm" onClick={toggleDarkMode} className="absolute top-4 right-4 z-30 bg-card/80 backdrop-blur-sm hover:bg-card">
         {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
       </Button>
-
-      {/* Navigation Indicators */}
-      
 
       {/* Main Content Container */}
       <div className={`flex w-[300%] h-full transition-transform duration-300 ease-out ${currentView === 'center' ? '-translate-x-[33.333%]' : currentView === 'left' ? '-translate-x-[66.666%]' : '-translate-x-0'}`} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
@@ -187,7 +207,11 @@ const Index = () => {
           <div className="relative z-10 h-full flex flex-col justify-end p-6">
             <div className="mb-4">
               <div className="flex items-center mb-2">
-                <span className={`px-2 py-1 rounded text-xs font-semibold ${currentNewsItem.impact === 'Bullish' ? 'bg-accent text-accent-foreground' : currentNewsItem.impact === 'Bearish' ? 'bg-destructive text-destructive-foreground' : 'bg-secondary text-secondary-foreground'}`}>
+                <span className={`px-2 py-1 rounded text-xs font-semibold ${
+                  currentNewsItem.impact === 'Bullish' ? 'bg-green-600 text-white' : 
+                  currentNewsItem.impact === 'Bearish' ? 'bg-red-600 text-white' : 
+                  'bg-gray-600 text-white'
+                }`}>
                   {currentNewsItem.impact}
                 </span>
                 <span className="text-muted-foreground text-sm ml-2">{currentNewsItem.source}</span>
@@ -229,53 +253,58 @@ const Index = () => {
 
         {/* AI Summary Page */}
         <div className="w-1/3 h-full bg-gradient-to-br from-background to-secondary/20 p-6 overflow-y-auto">
-          <div className="flex items-center mb-6">
-            <Sparkles className="w-6 h-6 mr-2 text-accent" />
-            <h1 className="text-2xl font-bold">AI Analysis</h1>
+          {/* Hero Image */}
+          <div className="mb-6">
+            <img src={currentNewsItem.image} alt={currentNewsItem.headline} className="w-full h-48 object-cover rounded-lg shadow-lg" />
           </div>
 
-          <div className="space-y-6">
-            <div>
-              <img src={currentNewsItem.image} alt={currentNewsItem.headline} className="w-full h-48 object-cover rounded-lg mb-4" />
-              <h2 className="text-xl font-bold mb-4 leading-tight">
-                {currentNewsItem.headline}
-              </h2>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-3 text-primary">Full Article</h3>
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                {currentNewsItem.content}
-              </p>
-            </div>
-
-            <Card className="bg-card/80 border-accent/30 backdrop-blur-sm">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg font-semibold text-accent flex items-center">
-                  <TrendingUp className="w-5 h-5 mr-2" />
-                  Impact Analysis
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground leading-relaxed">
-                  {currentNewsItem.aiAnalysis}
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-card/60 border-primary/30">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg font-semibold text-primary">Source</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <a href="#" className="text-accent hover:text-accent/80 underline" target="_blank" rel="noopener noreferrer">
-                  Read original article on {currentNewsItem.source}
-                </a>
-              </CardContent>
-            </Card>
+          {/* Headline with highlighted keywords */}
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold leading-tight" dangerouslySetInnerHTML={{
+              __html: highlightKeywords(currentNewsItem.headline)
+            }} />
           </div>
 
-          <div className="text-center mt-6">
+          {/* Article content with highlighted keywords */}
+          <div className="mb-6">
+            <p className="text-muted-foreground leading-relaxed text-base" dangerouslySetInnerHTML={{
+              __html: highlightKeywords(currentNewsItem.content)
+            }} />
+          </div>
+
+          {/* Impact Analysis with bullet points */}
+          <Card className="bg-card/80 border-accent/30 backdrop-blur-sm mb-6">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg font-semibold text-accent flex items-center">
+                <TrendingUp className="w-5 h-5 mr-2" />
+                Impact Analysis
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-3">
+                {currentNewsItem.aiAnalysis.map((point, index) => (
+                  <li key={index} className="flex items-start">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2.5 mr-3 flex-shrink-0" />
+                    <span className="text-muted-foreground leading-relaxed">{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+
+          {/* Source */}
+          <Card className="bg-card/60 border-primary/30 mb-6">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg font-semibold text-primary">Source</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <a href="#" className="text-accent hover:text-accent/80 underline" target="_blank" rel="noopener noreferrer">
+                Read original article on {currentNewsItem.source}
+              </a>
+            </CardContent>
+          </Card>
+
+          <div className="text-center">
             <Button variant="ghost" onClick={() => setCurrentView('center')} className="text-muted-foreground hover:text-foreground hover:bg-card/50">
               <ChevronLeft className="w-4 h-4 mr-1" />
               Back to News Feed
@@ -283,11 +312,7 @@ const Index = () => {
           </div>
         </div>
       </div>
-
-      {/* Swipe Instructions */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center z-20">
-        
-      </div>
     </div>;
 };
+
 export default Index;
