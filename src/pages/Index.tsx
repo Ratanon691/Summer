@@ -46,13 +46,99 @@ const mockNews = [{
     "75% market probability suggests high confidence in Fed's dovish pivot",
     "Continued inflation moderation creates room for monetary policy accommodation"
   ]
+}, {
+  id: 4,
+  headline: "Amazon Web Services Faces Major Outage, Affecting Thousands of Sites",
+  summary: "AWS experienced a widespread service disruption lasting 4 hours, impacting major websites and raising concerns about cloud infrastructure reliability.",
+  image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=400&fit=crop",
+  source: "TechCrunch",
+  impact: "Bearish",
+  content: "Amazon Web Services suffered a significant outage affecting its US-East-1 region, causing widespread disruptions to thousands of websites and applications. The outage, which lasted approximately 4 hours, impacted major services including Netflix, Slack, and various banking applications. AWS attributed the issue to a configuration error during routine maintenance that cascaded across multiple availability zones. This marks the third major AWS outage this year, raising questions about the resilience of cloud infrastructure and potentially accelerating enterprise adoption of multi-cloud strategies.",
+  aiAnalysis: [
+    "Repeated outages may damage AWS's reputation for reliability among enterprise customers",
+    "Multi-cloud adoption could accelerate, benefiting competitors like Microsoft Azure and Google Cloud",
+    "Regulatory scrutiny on cloud infrastructure reliability may increase",
+    "AWS's dominant market position makes such outages systemically risky for the broader economy"
+  ]
+}, {
+  id: 5,
+  headline: "Microsoft Azure Gains Market Share as AI Demand Surges",
+  summary: "Microsoft reports 35% growth in Azure revenue, driven by enterprise AI adoption and cloud migration acceleration.",
+  image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=400&fit=crop",
+  source: "Reuters",
+  impact: "Bullish",
+  content: "Microsoft Corporation reported exceptional growth in its Azure cloud platform, with revenue increasing 35% year-over-year in the latest quarter. The surge is primarily attributed to enterprise demand for AI-powered services and accelerated cloud migration following recent AWS outages. Microsoft's integration of OpenAI's GPT models into Azure services has created new revenue streams, with AI-related services now accounting for 15% of total Azure revenue. The company also announced new partnerships with Fortune 500 companies for AI transformation initiatives.",
+  aiAnalysis: [
+    "AI integration creating significant competitive advantages for Microsoft Azure",
+    "Enterprise customers diversifying cloud providers following competitor outages",
+    "35% growth rate demonstrates strong market position in cloud computing",
+    "AI services premium pricing improving Azure profit margins substantially"
+  ]
+}, {
+  id: 6,
+  headline: "Oil Prices Plummet 8% on China Economic Slowdown Fears",
+  summary: "Crude oil futures dropped sharply after disappointing Chinese manufacturing data raised concerns about global energy demand.",
+  image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop",
+  source: "Financial Times",
+  impact: "Bearish",
+  content: "Oil prices experienced their steepest single-day decline in months, with Brent crude falling 8.2% to $76.50 per barrel following the release of weaker-than-expected Chinese manufacturing PMI data. The manufacturing index fell to 47.8, indicating contraction for the third consecutive month. As China is the world's largest oil importer, concerns about reduced demand sent shockwaves through energy markets. Additional pressure came from reports of increased US shale production and potential releases from strategic petroleum reserves.",
+  aiAnalysis: [
+    "Chinese economic slowdown could significantly reduce global oil demand",
+    "Energy sector stocks likely to face continued pressure in near term",
+    "Lower oil prices may benefit consumer spending and reduce inflation pressures",
+    "US shale producers may need to cut production if prices remain depressed"
+  ]
+}, {
+  id: 7,
+  headline: "Bank Earnings Show Mixed Results Amid Interest Rate Uncertainty",
+  summary: "Major banks report divergent quarterly results, with lending growth slowing but trading revenues remaining strong.",
+  image: "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?w=800&h=400&fit=crop",
+  source: "Wall Street Journal",
+  impact: "Mixed",
+  content: "The latest round of bank earnings revealed a mixed picture for the financial sector, with institutions showing varying performance across different business lines. JPMorgan Chase reported flat loan growth but strong trading revenues, while Bank of America saw declining net interest income offset by lower credit loss provisions. Wells Fargo surprised with better-than-expected mortgage origination volumes. The uncertainty around Federal Reserve policy direction continues to create challenges for banks' net interest margin forecasting.",
+  aiAnalysis: [
+    "Interest rate uncertainty making it difficult for banks to optimize lending strategies",
+    "Trading revenues providing stability during transitional monetary policy period",
+    "Credit quality remains solid but banks maintaining cautious lending standards",
+    "Potential rate cuts could pressure net interest margins in coming quarters"
+  ]
+}, {
+  id: 8,
+  headline: "Renewable Energy Stocks Surge on New Climate Policy Announcements",
+  summary: "Clean energy companies rally after government unveils expanded tax incentives and infrastructure investment plans.",
+  image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop",
+  source: "Bloomberg",
+  impact: "Bullish",
+  content: "Renewable energy stocks experienced significant gains following the government's announcement of expanded clean energy tax incentives and a $200 billion infrastructure investment plan focused on grid modernization and renewable energy projects. Solar companies led the rally with an average gain of 15%, while wind energy stocks rose 12%. The policy package includes extended production tax credits, accelerated depreciation schedules, and grants for energy storage projects. Industry analysts project this could accelerate the transition to renewable energy by 3-5 years.",
+  aiAnalysis: [
+    "Extended tax incentives provide long-term revenue visibility for renewable energy companies",
+    "Grid modernization investments address key infrastructure bottlenecks",
+    "Accelerated depreciation schedules improve project economics and IRR calculations",
+    "Energy storage incentives crucial for addressing intermittency challenges in renewables"
+  ]
 }];
-const dailyBrief = {
-  date: "November 15, 2024",
-  summary: "Markets showed mixed signals today with tech stocks leading gains while financials lagged on rate cut expectations.",
-  keyPoints: ["S&P 500 closed up 0.8% led by technology sector gains", "10-year Treasury yields fell to 4.2% on Fed dovish signals", "Oil prices dropped 2.1% on China demand concerns", "Bitcoin reached new 2024 high of $44,200", "Weekly jobless claims came in below expectations at 217K"],
-  marketOutlook: "Cautiously optimistic with focus on upcoming inflation data and earnings reports from major retailers."
+
+const getCurrentDate = () => {
+  return new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
 };
+
+const dailyBrief = {
+  date: getCurrentDate(),
+  summary: "Markets showed mixed signals today with tech stocks leading gains while energy and financial sectors faced headwinds on policy uncertainty.",
+  keyPoints: [
+    "S&P 500 closed up 0.8% led by technology and cloud computing gains", 
+    "Oil prices fell 8% on China economic slowdown concerns",
+    "Bank earnings revealed mixed results amid interest rate uncertainty", 
+    "Renewable energy stocks surged 12-15% on new climate policy announcements",
+    "Federal Reserve hints at potential December rate cut as inflation moderates"
+  ],
+  marketOutlook: "Cautiously optimistic with focus on upcoming Fed decisions and continued monitoring of global economic indicators."
+};
+
 type SwipeDirection = 'center' | 'left' | 'right';
 const Index = () => {
   const [currentNews, setCurrentNews] = useState(0);
