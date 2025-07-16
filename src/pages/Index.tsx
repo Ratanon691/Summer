@@ -2,8 +2,57 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, ChevronDown, TrendingUp, Calendar, Sparkles, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useNews } from '@/hooks/useNews';
-import { transformNewsItem, generateDailyBrief } from '@/utils/newsTransformer';
+
+// Mock data for demonstration
+const mockNews = [{
+  id: 1,
+  headline: "Apple Reports Record Q4 Earnings, Beats Analyst Expectations",
+  summary: "Apple Inc. reported quarterly revenue of $94.9 billion, up 6% year-over-year, driven by strong iPhone 15 sales and services growth.",
+  image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&h=400&fit=crop",
+  source: "Reuters",
+  impact: "Bullish",
+  content: "Apple Inc. exceeded Wall Street expectations with its fourth-quarter results, reporting revenue of $94.9 billion compared to analysts' estimates of $94.4 billion. The tech giant's iPhone segment generated $46.2 billion in revenue, marking a 3% increase from the previous year. The company's services division, including the App Store, iCloud, and Apple Music, contributed $22.3 billion, representing a 16% year-over-year growth. CEO Tim Cook highlighted the strong adoption of iPhone 15 and the growing ecosystem of Apple services as key drivers of the quarter's success.",
+  aiAnalysis: [
+    "Strong consumer demand for Apple's premium products despite economic headwinds",
+    "16% growth in services revenue represents Apple's highest-margin business segment",
+    "Sustainable long-term growth beyond hardware sales indicates strong ecosystem lock-in",
+    "Beat analyst expectations suggests continued market confidence in Apple's strategy"
+  ]
+}, {
+  id: 2,
+  headline: "Tesla Stock Surges 12% on Cybertruck Production Update",
+  summary: "Tesla announces accelerated Cybertruck production timeline, with first deliveries expected in Q1 2024, driving investor optimism.",
+  image: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=800&h=400&fit=crop",
+  source: "Bloomberg",
+  impact: "Bullish",
+  content: "Tesla Inc. shares jumped 12% in after-hours trading following the company's announcement of an accelerated production timeline for its highly anticipated Cybertruck. The electric vehicle manufacturer revealed that it has overcome key manufacturing challenges and expects to begin customer deliveries in Q1 2024, earlier than the previously projected Q2 timeline. The company also announced that it has received over 1.5 million pre-orders for the Cybertruck, with production capacity expected to reach 250,000 units annually by 2025.",
+  aiAnalysis: [
+    "Earlier-than-expected Cybertruck launch could significantly boost Tesla's market share",
+    "1.5 million pre-orders indicate strong pent-up demand in electric pickup segment",
+    "Production capacity of 250,000 units annually represents substantial revenue potential",
+    "Overcoming manufacturing challenges demonstrates Tesla's operational excellence"
+  ]
+}, {
+  id: 3,
+  headline: "Federal Reserve Hints at Rate Cut in December Meeting",
+  summary: "Fed Chair Powell suggests monetary policy may shift to accommodate slowing inflation, with markets pricing in 75% chance of December rate cut.",
+  image: "https://images.unsplash.com/photo-1559526324-593bc073d938?w=800&h=400&fit=crop",
+  source: "Wall Street Journal",
+  impact: "Mixed",
+  content: "Federal Reserve Chair Jerome Powell indicated that the central bank may consider cutting interest rates at its December meeting, citing recent data showing inflation trending toward the Fed's 2% target. Core PCE inflation has declined to 3.2% year-over-year, down from its peak of 5.4% in early 2023. Powell emphasized that any rate decisions will be data-dependent, but acknowledged that the current restrictive monetary policy stance may no longer be necessary if inflation continues to moderate. Market participants are now pricing in a 75% probability of a 25 basis point rate cut in December.",
+  aiAnalysis: [
+    "Lower interest rates typically benefit growth stocks and borrowing-sensitive sectors",
+    "Rate cuts often signal economic weakness, potentially impacting cyclical sectors negatively",
+    "75% market probability suggests high confidence in Fed's dovish pivot",
+    "Continued inflation moderation creates room for monetary policy accommodation"
+  ]
+}];
+const dailyBrief = {
+  date: "November 15, 2024",
+  summary: "Markets showed mixed signals today with tech stocks leading gains while financials lagged on rate cut expectations.",
+  keyPoints: ["S&P 500 closed up 0.8% led by technology sector gains", "10-year Treasury yields fell to 4.2% on Fed dovish signals", "Oil prices dropped 2.1% on China demand concerns", "Bitcoin reached new 2024 high of $44,200", "Weekly jobless claims came in below expectations at 217K"],
+  marketOutlook: "Cautiously optimistic with focus on upcoming inflation data and earnings reports from major retailers."
+};
 type SwipeDirection = 'center' | 'left' | 'right';
 const Index = () => {
   const [currentNews, setCurrentNews] = useState(0);
@@ -11,18 +60,6 @@ const Index = () => {
   const [startX, setStartX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  
-  // Fetch news from Supabase
-  const { data: newsData, isLoading, error } = useNews();
-  
-  // Transform news data and generate daily brief
-  const transformedNews = newsData ? newsData.map(transformNewsItem) : [];
-  const dailyBrief = newsData ? generateDailyBrief(newsData) : {
-    date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-    summary: "Loading market data...",
-    keyPoints: ["Fetching latest market updates", "Analyzing current trends", "Processing financial data"],
-    marketOutlook: "Please wait while we load the latest market information."
-  };
   useEffect(() => {
     // Check system preference for dark mode
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -69,50 +106,12 @@ const Index = () => {
     setIsDragging(false);
   };
   const nextNews = () => {
-    if (transformedNews.length > 0) {
-      setCurrentNews(prev => (prev + 1) % transformedNews.length);
-    }
+    setCurrentNews(prev => (prev + 1) % mockNews.length);
   };
   const prevNews = () => {
-    if (transformedNews.length > 0) {
-      setCurrentNews(prev => (prev - 1 + transformedNews.length) % transformedNews.length);
-    }
+    setCurrentNews(prev => (prev - 1 + mockNews.length) % mockNews.length);
   };
-  
-  // Handle loading and error states
-  if (isLoading) {
-    return (
-      <div className="h-screen w-full flex items-center justify-center bg-gradient-to-br from-background via-secondary/20 to-accent/10">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading latest news...</p>
-        </div>
-      </div>
-    );
-  }
-  
-  if (error) {
-    return (
-      <div className="h-screen w-full flex items-center justify-center bg-gradient-to-br from-background via-secondary/20 to-accent/10">
-        <div className="text-center">
-          <p className="text-destructive mb-2">Error loading news</p>
-          <p className="text-muted-foreground text-sm">Please try refreshing the page</p>
-        </div>
-      </div>
-    );
-  }
-  
-  if (transformedNews.length === 0) {
-    return (
-      <div className="h-screen w-full flex items-center justify-center bg-gradient-to-br from-background via-secondary/20 to-accent/10">
-        <div className="text-center">
-          <p className="text-muted-foreground">No news available</p>
-        </div>
-      </div>
-    );
-  }
-  
-  const currentNewsItem = transformedNews[currentNews];
+  const currentNewsItem = mockNews[currentNews];
 
   // Helper function to highlight keywords in text
   const highlightKeywords = (text: string, keywords: string[] = ['Apple', 'Tesla', 'Federal Reserve', 'revenue', 'earnings', 'production', 'rate cut', 'inflation']) => {
@@ -209,9 +208,9 @@ const Index = () => {
             <div className="mb-4">
               <div className="flex items-center mb-2">
                 <span className={`px-2 py-1 rounded text-xs font-semibold ${
-                  currentNewsItem.impact === 'Bullish' ? 'bg-green-500 text-white' : 
-                  currentNewsItem.impact === 'Bearish' ? 'bg-red-500 text-white' : 
-                  'bg-gray-500 text-white'
+                  currentNewsItem.impact === 'Bullish' ? 'bg-green-600 text-white' : 
+                  currentNewsItem.impact === 'Bearish' ? 'bg-red-600 text-white' : 
+                  'bg-gray-600 text-white'
                 }`}>
                   {currentNewsItem.impact}
                 </span>
